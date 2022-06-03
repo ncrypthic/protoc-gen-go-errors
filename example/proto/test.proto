@@ -1,0 +1,24 @@
+syntax="proto3";
+
+import "protoc-gen-go-errors/proto/errors.proto";
+
+option go_package="github.com/ncrypthic/protoc-gen-go-errors/generator/test";
+
+package sample;
+
+message RegisterRequest{}
+
+message RegisterResponse{}
+
+service UserService {
+  rpc Register(RegisterRequest) returns (RegisterResponse) {
+    option(errors.types) = {
+       status: ALREADY_EXISTS,
+       code: "err_email_exists"
+    };
+    option(errors.types) = {
+       status: INVALID_ARGUMENT,
+       code: "err_invalid_email"
+    };
+  };
+}
